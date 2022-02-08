@@ -1,0 +1,52 @@
+<html>
+  <html>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" type="text/css" href="//github.com/downloads/lafeber/world-flags-sprite/flags32.css" />
+    <style>
+      /* Add some padding on document's body to prevent the content
+      to go underneath the header and footer */
+      body{        
+          padding-top: 60px;
+          padding-bottom: 40px;
+      }
+      .fixed-header, .fixed-footer{
+          width: 100%;
+          position: fixed;        
+          background: #333;
+          padding: 10px 0;
+          color: #fff;
+      }
+      .fixed-header{
+          top: 0;
+      }
+      .fixed-footer{
+          bottom: 0;
+      }
+      .container{
+          width: 80%;
+          margin: 0 auto; /* Center the DIV horizontally */
+      }
+      nav a{
+          color: #fff;
+          text-decoration: none;
+          padding: 7px 25px;
+          display: inline-block;
+      }
+  </style>
+  <body>
+    <div class="fixed-header">
+      <div class>
+        <nav>
+          <a href="/"><span style="font-size: 30px;">Search Investment fund Engine</span></a>
+
+        </nav>
+      </div>
+    </div>
+    <div>
+    <br>
+    <form method="post" enctype="multipart/form-data" action="homeindex">
+      {% csrf_token %}
+      <div class="col-md-4-col-sm-4"><label for ="fname">Investement Funds:</label></div><input name="funds" type="text" value={{temp.fund}}><br><br>
+      <input type="submit" value="Search" name="Manuel"  href="index.html"></div>
+    </form>
+</html>

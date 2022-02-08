@@ -1,0 +1,198 @@
+<html>
+  <html>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" type="text/css" href="//github.com/downloads/lafeber/world-flags-sprite/flags32.css" />
+    <style>
+      /* Add some padding on document's body to prevent the content
+      to go underneath the header and footer */
+      body{        
+          padding-top: 60px;
+          padding-bottom: 40px;
+      }
+      .fixed-header, .fixed-footer{
+          width: 100%;
+          position: fixed;        
+          background: #333;
+          padding: 10px 0;
+          color: #fff;
+      }
+      .fixed-header{
+          top: 0;
+      }
+      .fixed-footer{
+          bottom: 0;
+      }
+      .container{
+          width: 80%;
+          margin: 0 auto; /* Center the DIV horizontally */
+      }
+      nav a{
+          color: #fff;
+          text-decoration: none;
+          padding: 7px 25px;
+          display: inline-block;
+      }
+  </style>
+  <body>
+    <div class="fixed-header">
+      <div class>
+        <nav>
+          <a href="/"><span style="font-size: 30px;">Search Investment fund Engine</span></a>
+
+        </nav>
+      </div>
+    </div>
+    <div>
+    <br>    
+      <form method="POST" enctype="multipart/form-data" action="selectComp">
+        {% csrf_token %}
+        <div class="col-md-4 col-sm-4"><label for ="fname">Investement Funds CIK:</label></div><input name="nadine" type="text" value={{temp.nadine}}><br><br>
+        <input type="submit" value={{"search"}} href="index.html"></div>
+
+      </form>
+    </br>
+  </div>
+
+  <body>
+    <div class="fixed-header">
+      <div class>
+        <nav>
+          <a href="/"><span style="font-size: 30px;">SEC Company search</span></a>
+
+        </nav>
+      </div>
+    </div>
+    <div>
+      <div  class="col-lg-3" style="float: left; max-height; 650px;max-width:400px; overflow; scroll; overflow-x:hidden;"></div>
+        <div><h1>{{fund}}</h1></div>
+        <div><h1>Invested Amount: {{totalCount}} (in millions)</h1></div>
+        <div class="col-lg-12" style"float: left;">
+          <div class="col-lg-4" style="float: left;">
+            <form method="POST" enctype="multipart/form-data" action="selectComp">
+              {% csrf_token %}
+              {% for comp in names %}
+
+              <input type="submit" value={{comp}} name="manuel" style="width:100px;"></br>
+
+              {% endfor %}
+            </form>
+          </div>
+          <div class="col-lg-8" style="float: left;">
+              <canvas id="myChart" style="width: 300px; height:470px;"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6" style="float: left;">
+        <canvas id="lineChart" style="width: 600px; height:470px;"></canvas>
+      </div>
+      <div class="col-lg-3"></div>
+      <table border="1" cellpadding="5" cellspacing="5">
+
+        <td>Date</td>
+        <td>Net Sales</td>
+        <td>Cost of sales</td>
+        <td>Gross margin</td>
+        <td>Research and development</td>
+        <td>Selling, general and administrative</td>
+        <td>Total operating expenses</td>
+        <td>Operating income</td>
+        <td>Other income/, net</td>
+        <td>Income before provision for income taxes</td>
+        <td>Provision for income taxes</td>
+        <td>Net income</td>
+        <td>Basic Shares</td>
+        <td>Diluted Shares</td>
+        <td>Basic Dollars_per_share</td>
+        <td>Diluted Dollars_per_share</td>
+        {% for i in income_statement%}
+
+        <tr>
+          <td>{{i.Date}}</td>
+          <td>{{i.Net_sales}}</td>
+          <td>{{i.Cost_of_sales}}</td>
+          <td>{{i.Gross_margin}}</td>
+          <td>{{i.Research_and_development}}</td>
+          <td>{{i.Selling_general_and_administrative}}</td>
+          <td>{{i.Total_operating_expenses}}</td>
+          <td>{{i.Operating_income}}</td>
+          <td>{{i.Other_income_net}}</td>
+          <td>{{i.Income_before_provision_for_income_taxes}}</td>
+          <td>{{i.Provision_for_income_taxes}}</td>
+          <td>{{i.Net_income}}</td>
+          <td>{{i.Basic_Shares}}</td>
+          <td>{{i.Diluted_Shares}}</td>
+          <td>{{i.Basic_Dollars_per_share}}</td>
+          <td>{{i.Diluted_Dollars_per_share}}</td>
+        </tr>
+
+        {% endfor %}
+      </table>
+    </div>
+  </body>
+
+  <script>
+    
+    const data = {
+      labels: {{ names|safe }},
+      datasets: [{
+        label: 'Scion Capital',
+        backgroundColor: 'rgb(255, 99, 132)',
+        borderColor: 'rgb(255, 99, 132)',
+        data: {{ values|safe }},
+      }]
+    };
+  
+    const config = {
+      type: 'bar',
+      data: data,
+      options: {
+        plugins: {legend: {display:false}},
+        indexAxis:'y',
+        scales: {
+          y: {
+              ticks: {
+                  // Removing xticks
+                  callback: function(value, index, values) {
+                      return;
+                  }
+              }
+          }
+        }
+      }
+    };
+
+    const myChart = new Chart(
+      document.getElementById('myChart').getContext('2d'),
+      config
+    );
+    
+    const data2 = {
+      labels: {{ time|safe }},
+      datasets: [{
+        backgroundColor: 'rgb(255, 99, 132)',
+        borderColor: 'rgb(255, 99, 132)',
+        data: {{ stock_prices|safe }},
+      }]
+    };
+  
+    const config2 = {
+      type: 'line',
+      data: data2,
+      options: {
+        plugins: {legend: {display:false}},
+        indexAxis: 'x',
+        scales: {
+          x: {
+            beginAtZero: true
+          }
+        }
+      }
+    };
+
+    const lineChart = new Chart(
+      document.getElementById('lineChart'),
+      config2
+    );
+  </script>
+   
+</html>
